@@ -1,2 +1,5 @@
-export USE_NOHUP={{ use_nohup }}
-export UMASK={{ umask }}
+{% if tomcat_env_vars is defined %}
+{% for item in tomcat_env_vars %}
+export {{ item.name }}={{ item.val }}
+{% endfor %}
+{% endif %}

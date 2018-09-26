@@ -1,0 +1,10 @@
+---
+# playbook to demonstrate the tomcat role
+- hosts: tcservers
+  vars:
+    - tomcat_env_vars:
+      - { name: "CATALINA_OPTS", val: "-Xms512m" }
+      - { name: "UMASK", val: "0022" }
+
+  roles:
+    - tomcat

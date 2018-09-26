@@ -1,2 +1,68 @@
 ---
 # tasks file for tomcat
+- name: Create tomcat group
+  group:
+    name: tomcat
+    state: present
+  become: yes
+
+- name: Create tomcat user
+  user:
+    name: tomcat
+    state: present
+    group: tomcat
+    shell: /usr/bin/bash
+    system: yes
+    expires: -1
+    comment: Tomcat Functional Account
+  become: yes
+
+- name: Install OpenJDK 8
+  yum:
+    name: java-1.8.0-openjdk-devel.x86_64
+    state: latest
+  become: yes
+
+- name: Install Tomcat 9
+  unarchive:
+    src: apache-tomcat-9.0.12.tar.gz
+    dest: /opt
+  become: yes
+
+- name: Change owner/group to tomcat.tomcat
+  file:
+    path: /opt/apache-tomcat-9.0.12
+    state: directory
+    recurse: yes
+    owner: tomcat
+    group: tomcat
+  become: yes
+
+- name: Install service file
+  copy:
+    src: tomcat.service
+    dest: /usr/lib/systemd/system
+    owner: root
+    group: root
+    mode: 0755
+  become: yes
+  notify:
+    - Reload systemctl
+
+- name: setenv.sh
+  template:
+    src: setenv.sh.j2
+    dest: /opt/apache-tomcat-9.0.12/bin/setenv.sh
+    owner: tomcat
+    group: tomcat
+    mode: 0755
+  become: yes
+  become_user: tomcat
+  notify:
+    - Restart Tomcat
+
+- name: Start Tomcat
+  service:
+    name: tomcat
+    state: started
+  become: yes

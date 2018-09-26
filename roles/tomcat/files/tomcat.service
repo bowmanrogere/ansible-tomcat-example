@@ -1,0 +1,21 @@
+[Unit]
+Description=Apache Tomcat Web Application Container
+After=syslog.target network.target
+
+[Service]
+Type=forking
+
+Environment=CATALINA_PID=/opt/apache-tomcat-9.0.12/temp/tomcat.pid
+Environment=CATALINA_HOME=/opt/apache-tomcat-9.0.12
+Environment=CATALINA_BASE=/opt/apache-tomcat-9.0.12
+Environment='CATALINA_OPTS=-Xms128M -Xmx765M -server -XX:+UseParallelGC'
+Environment='JAVA_OPTS=-Djava.awt.haedless=true'
+
+ExecStart=/opt/apache-tomcat-9.0.12/bin/startup.sh
+ExecStop=/bin/kill -15 $MAINPID
+
+User=tomcat
+Group=tomcat
+
+[Install]
+WantedBy=multi-user.target

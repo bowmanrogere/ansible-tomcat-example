@@ -1,5 +1,11 @@
 ---
 # tasks file for tomcat
+- name: Install OpenJDK 8
+  yum:
+    name: java-1.8.0-openjdk-devel.x86_64
+    state: latest
+  become: yes
+
 - name: Create tomcat group
   group:
     name: tomcat
@@ -17,11 +23,6 @@
     comment: Tomcat Functional Account
   become: yes
 
-- name: Install OpenJDK 8
-  yum:
-    name: java-1.8.0-openjdk-devel.x86_64
-    state: latest
-  become: yes
 
 - name: Install Tomcat 9
   unarchive:

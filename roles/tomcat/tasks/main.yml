@@ -49,6 +49,26 @@
   notify:
     - Reload systemctl
 
+- name: server.xml
+  template:
+    src: server.xml.j2
+    dest: /opt/apache-tomcat-9.0.12/conf/server.xml
+    owner: tomcat
+    group: tomcat
+    mode: 0640
+  become: yes
+  notify: Restart Tomcat
+
+- name: tomcat-users.xml
+  template:
+    src: tomcat-users.xml.j2
+    dest: /opt/apache-tomcat-9.0.12/conf/tomcat-users.xml
+    owner: tomcat
+    group: tomcat
+    mode: 0640
+  become: yes
+  notify: Restart Tomcat
+
 - name: setenv.sh
   template:
     src: setenv.sh.j2

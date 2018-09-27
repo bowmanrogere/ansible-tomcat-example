@@ -1,2 +1,6 @@
 ---
 # defaults file for tomcat
+server_port: 8005
+shutdown: "SHUTDOWN"
+tomcat_port: 8080
+ajp_port: 8009

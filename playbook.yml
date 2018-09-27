@@ -5,6 +5,11 @@
     - tomcat_env_vars:
       - { name: "CATALINA_OPTS", val: "-Xms512m" }
       - { name: "UMASK", val: "0022" }
+    - tomcat_port: 7888
+    - tomcat_roles:
+      - manager-gui
+    - tomcat_users:
+      - { username: "admin", password: "P@ssw0rd", roles: "manager-gui" }
 
   roles:
     - tomcat
